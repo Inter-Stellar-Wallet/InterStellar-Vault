@@ -66,8 +66,14 @@ class _SendMoneyState extends State<SendMoney> {
           phone = user.phone;
           email = user.email;
         });
+        return;
       }
     }
+
+    setState(() {
+      phone = '';
+      email = widget.name;
+    });
   }
 
   @override
