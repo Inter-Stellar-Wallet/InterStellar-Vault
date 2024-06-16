@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "422989871043",
+    "project_id": "stellar-wallet-7b278",
+    "storage_bucket": "stellar-wallet-7b278.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:422989871043:android:945ba9b25047e139706f76",
+        "android_client_info": {
+          "package_name": "com.example.day40"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwSGZAwGtSAJzVznIIDW3w9OfrC1fjc2I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
