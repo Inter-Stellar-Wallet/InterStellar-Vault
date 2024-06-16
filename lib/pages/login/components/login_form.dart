@@ -18,9 +18,9 @@ class LoginForm extends StatelessWidget {
             cursorColor: kPrimaryColor,
             onSaved: (email) {},
             decoration: const InputDecoration(
-              hintText: "Your email",
+              hintText: "Email",
               prefixIcon: Padding(
-                padding: EdgeInsets.all(defaultPadding),
+                padding: EdgeInsets.all(0),
                 child: Icon(Icons.person),
               ),
             ),
@@ -28,23 +28,30 @@ class LoginForm extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
+              keyboardType: TextInputType.phone,
               textInputAction: TextInputAction.done,
-              obscureText: true,
+              obscureText: false,
               cursorColor: kPrimaryColor,
               decoration: const InputDecoration(
-                hintText: "Your password",
+                hintText: "Phone Number",
                 prefixIcon: Padding(
-                  padding: EdgeInsets.all(defaultPadding),
-                  child: Icon(Icons.lock),
+                  padding: EdgeInsets.all(0),
+                  child: Icon(Icons.phone),
                 ),
               ),
             ),
           ),
           const SizedBox(height: defaultPadding),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.black
+            ),
             onPressed: () {},
             child: Text(
-              "Login".toUpperCase(),
+              "Create Wallet".toUpperCase(),
+              style: const TextStyle(
+                color: Colors.white
+              ),
             ),
           ),
           const SizedBox(height: defaultPadding),
