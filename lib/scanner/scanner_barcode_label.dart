@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:day40/pages/send_money.dart';
+import 'package:interstellar/pages/send_money.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class ScannedBarcodeLabel extends StatefulWidget {
