@@ -160,7 +160,20 @@ class _CreateTokenPageState extends State<CreateTokenPage> {
                             return ElevatedButton(
                               style:
                                   ElevatedButton.styleFrom(backgroundColor: Colors.black),
-                              onPressed: (){},
+                              onPressed: () async {
+                                await StellarHelper.createToken("Amazon Token", 120);
+                                toastification.show(
+                                  context: context,
+                                  type: ToastificationType.success,
+                                  style: ToastificationStyle.flat,
+                                  title: const Text('Gift Asset Created'),
+                                  description:
+                                      const Text("Pantaloons Gift asset Created successfully"),
+                                  alignment: Alignment.topLeft,
+                                  autoCloseDuration: const Duration(seconds: 4),
+                                );
+                                Navigator.of(context).pushReplacementNamed('/');
+                              },
                               child: Text(
                                 "Create Token".toUpperCase(),
                                 style: const TextStyle(color: Colors.white),
@@ -174,51 +187,6 @@ class _CreateTokenPageState extends State<CreateTokenPage> {
                     ),
                   ),
                 ),
-                ),
-                
-                FadeInUp(
-                  duration: Duration(milliseconds: 1000),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                    child: Material(
-                      elevation: 5,
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.black,
-                      child: Observer(builder: (_) {
-                        return MaterialButton(
-                          onPressed: () async {
-                            double balanceD = double.parse(amount.text
-                                    .substring(1, amount.text.length)) *
-                                8.21;
-                            print(widget.qr_data);
-                            print(balanceD.toString());
-                            await StellarHelper.sendPayment(
-                                balanceD.toStringAsFixed(3), widget.qr_data!);
-
-                            StellarHelper.getAccountBalance().then((val) =>
-                                {_.read()<LoggedInStore>().setBalance(val)});
-                            toastification.show(
-                              context: context,
-                              type: ToastificationType.success,
-                              style: ToastificationStyle.flat,
-                              title: const Text('Payment Successfull'),
-                              description:
-                                  Text("Sent ${amount.text} to ${widget.name}"),
-                              alignment: Alignment.topLeft,
-                              autoCloseDuration: const Duration(seconds: 4),
-                            );
-                            Navigator.of(context).pushReplacementNamed('/');
-                          },
-                          minWidth: double.infinity,
-                          height: 50,
-                          child: Text(
-                            "Create Coin",
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                        );
-                      }),
-                    ),
-                  ),
                 ),
               ],
             ),
