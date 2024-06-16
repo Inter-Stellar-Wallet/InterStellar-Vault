@@ -55,6 +55,36 @@ mixin _$LoggedInStore on LoggedIn, Store {
     });
   }
 
+  late final _$usersAtom = Atom(name: 'LoggedIn.users', context: context);
+
+  @override
+  ObservableList<dynamic> get users {
+    _$usersAtom.reportRead();
+    return super.users;
+  }
+
+  @override
+  set users(ObservableList<dynamic> value) {
+    _$usersAtom.reportWrite(value, super.users, () {
+      super.users = value;
+    });
+  }
+
+  late final _$contactsAtom = Atom(name: 'LoggedIn.contacts', context: context);
+
+  @override
+  ObservableList<dynamic> get contacts {
+    _$contactsAtom.reportRead();
+    return super.contacts;
+  }
+
+  @override
+  set contacts(ObservableList<dynamic> value) {
+    _$contactsAtom.reportWrite(value, super.contacts, () {
+      super.contacts = value;
+    });
+  }
+
   late final _$LoggedInActionController =
       ActionController(name: 'LoggedIn', context: context);
 
@@ -92,11 +122,35 @@ mixin _$LoggedInStore on LoggedIn, Store {
   }
 
   @override
+  void setUsers(List<User> _users) {
+    final _$actionInfo =
+        _$LoggedInActionController.startAction(name: 'LoggedIn.setUsers');
+    try {
+      return super.setUsers(_users);
+    } finally {
+      _$LoggedInActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setContacts(List<Contact> _contacts) {
+    final _$actionInfo =
+        _$LoggedInActionController.startAction(name: 'LoggedIn.setContacts');
+    try {
+      return super.setContacts(_contacts);
+    } finally {
+      _$LoggedInActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isloggedin: ${isloggedin},
 wallet: ${wallet},
-balance: ${balance}
+balance: ${balance},
+users: ${users},
+contacts: ${contacts}
     ''';
   }
 }

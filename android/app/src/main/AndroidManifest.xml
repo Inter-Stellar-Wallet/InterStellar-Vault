@@ -2,6 +2,7 @@
     package="com.example.interstellar">
 
 <uses-permission android:name="android.permission.READ_CONTACTS"/>
+<uses-permission android:name="android.permission.WRITE_CONTACTS"/>
 
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-feature android:name="android.hardware.camera" />

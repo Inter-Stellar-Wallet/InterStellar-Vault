@@ -1,8 +1,10 @@
 import 'package:align_positioned/align_positioned.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:interstellar/pages/send_money.dart';
+import 'package:interstellar/store/LoggedIn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:provider/provider.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({Key? key}) : super(key: key);
@@ -54,6 +56,7 @@ class _ContactPageState extends State<ContactPage> {
 
     setState(() {
       _contacts = contacts
+          .sublist(0, 20)
           .map((contact) => {
                 'name': contact.displayName,
                 'avatar': contact.photo ?? 'assets/images/avatar-1.png',
@@ -63,6 +66,8 @@ class _ContactPageState extends State<ContactPage> {
               })
           .toList();
     });
+
+    print(context.read<LoggedInStore>().users.length);
   }
 
   @override
@@ -189,7 +194,8 @@ class _ContactPageState extends State<ContactPage> {
                               MaterialPageRoute(
                                   builder: (context) => SendMoney(
                                       name: _contacts[index]['name'],
-                                      avatar: _contacts[index]['avatar'])));
+                                      avatar: _contacts[index]['avatar'],
+                      qr_data: 'xyz',)));
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: 20),
@@ -298,7 +304,8 @@ class _ContactPageState extends State<ContactPage> {
               MaterialPageRoute(
                   builder: (context) => SendMoney(
                       name: _contacts[index]['name'],
-                      avatar: _contacts[index]['avatar'])));
+                      avatar: _contacts[index]['avatar'],
+                      qr_data: 'xyz',)));
         },
         child: Container(
           margin: EdgeInsets.only(right: 20),

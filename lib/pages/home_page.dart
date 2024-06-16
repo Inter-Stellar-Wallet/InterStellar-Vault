@@ -3,6 +3,7 @@ import 'package:interstellar/pages/contact.dart';
 import 'package:interstellar/pages/my_qr.dart';
 import 'package:interstellar/scanner/mobile_scanner_overlay.dart';
 import 'package:interstellar/store/LoggedIn.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -10,9 +11,10 @@ import 'package:iconsax/iconsax.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 
+final db = FirebaseFirestore.instance;
 
 class HomePage extends StatefulWidget {
-  const HomePage({ Key? key }) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -21,6 +23,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late ScrollController _scrollController;
   bool _isScrolled = false;
+
+  void _getAllUsers() async {
+    final _users = List<User>.empty(growable: true);
+
+    await db.collection("users").get().then((event) {
+      for (var doc in event.docs) {
+        _users.add(User.fromMap(doc.data()));
+      }
+    });
+
+    context.read<LoggedInStore>().setUsers(_users);
+  }
 
   final List<dynamic> _services = [
     ['Transfer', Iconsax.export_1, Colors.blue],
@@ -42,6 +56,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(_listenToScrollChange);
+    _getAllUsers();
 
     super.initState();
   }
@@ -91,27 +106,33 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: 80.0,
-                  height: 80.0,
-                  margin: const EdgeInsets.only(
-                    left: 20,
-                    top: 24.0,
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade800,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.asset('assets/images/avatar-1.png')
+                    width: 80.0,
+                    height: 80.0,
+                    margin: const EdgeInsets.only(
+                      left: 20,
+                      top: 24.0,
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade800,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset('assets/images/avatar-1.png')),
+                const SizedBox(
+                  height: 10,
                 ),
-                const SizedBox(height: 10,),
                 const Padding(
                   padding: EdgeInsets.only(left: 30.0),
-                  child: Text("John Doe", 
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
+                  child: Text(
+                    "John Doe",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w600),
+                  ),
                 ),
                 const Spacer(),
-                Divider(color: Colors.grey.shade800,),
+                Divider(
+                  color: Colors.grey.shade800,
+                ),
                 ListTile(
                   onTap: () {},
                   leading: const Icon(Iconsax.home),
@@ -127,25 +148,25 @@ class _HomePageState extends State<HomePage> {
                   leading: const Icon(Iconsax.profile_2user),
                   title: const Text('Contacts'),
                 ),
-                const SizedBox(height: 50,),
+                const SizedBox(
+                  height: 50,
+                ),
                 Divider(color: Colors.grey.shade800),
                 ListTile(
                   onTap: () {},
                   leading: const Icon(Iconsax.setting_2),
                   title: const Text('Settings'),
                 ),
-                Observer(
-                  builder: (_) {
-                    return ListTile(
-                        onTap: () {
-                          localStorage.removeItem('mnemonic');
-                          _.read<LoggedInStore>().setIsLoggedIn(false);
-                        },
-                        leading: const Icon(Icons.logout),
-                        title: const Text('Logout'),
-                      );
-                  }
-                ),
+                Observer(builder: (_) {
+                  return ListTile(
+                    onTap: () {
+                      localStorage.removeItem('mnemonic');
+                      _.read<LoggedInStore>().setIsLoggedIn(false);
+                    },
+                    leading: const Icon(Icons.logout),
+                    title: const Text('Logout'),
+                  );
+                }),
                 ListTile(
                   onTap: () {},
                   leading: const Icon(Iconsax.support),
@@ -154,7 +175,10 @@ class _HomePageState extends State<HomePage> {
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Text('Version 1.0.0', style: TextStyle(color: Colors.grey.shade500),),
+                  child: Text(
+                    'Version 1.0.0',
+                    style: TextStyle(color: Colors.grey.shade500),
+                  ),
                 )
               ],
             ),
@@ -162,10 +186,8 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       child: Scaffold(
-        backgroundColor: Colors.grey.shade100,
-        body: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
+          backgroundColor: Colors.grey.shade100,
+          body: CustomScrollView(controller: _scrollController, slivers: [
             SliverAppBar(
               expandedHeight: 250.0,
               elevation: 0,
@@ -197,7 +219,10 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                   icon: Icon(Icons.qr_code, color: Colors.grey.shade700),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const MyQrCode()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MyQrCode()));
                   },
                 ),
               ],
@@ -213,20 +238,19 @@ class _HomePageState extends State<HomePage> {
                 duration: const Duration(milliseconds: 500),
                 child: Column(
                   children: [
-
-                    Observer(
-                      builder: (_) {
-                        return Text(
-                          '\₹ ${_.watch<LoggedInStore>().balance}',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        );
-                      } 
+                    Observer(builder: (_) {
+                      return Text(
+                        '\₹ ${_.watch<LoggedInStore>().balance}',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    }),
+                    const SizedBox(
+                      height: 20,
                     ),
-                    const SizedBox(height: 20,),
                     Container(
                       width: 30,
                       height: 4,
@@ -253,39 +277,53 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('\₹', style: TextStyle(color: Colors.grey.shade800, fontSize: 22),),
-                            const SizedBox(width: 3,),
-                            Observer(
-                              builder: (_) {
-                                return Text(_.watch<LoggedInStore>().balance,
-                                  style: const TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                );
-                              }
+                            Text(
+                              '\₹',
+                              style: TextStyle(
+                                  color: Colors.grey.shade800, fontSize: 22),
                             ),
+                            const SizedBox(
+                              width: 3,
+                            ),
+                            Observer(builder: (_) {
+                              return Text(
+                                _.watch<LoggedInStore>().balance,
+                                style: const TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              );
+                            }),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       FadeIn(
                         duration: const Duration(milliseconds: 500),
                         child: MaterialButton(
                           height: 30,
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 0),
                           onPressed: () {},
-                          child: const Text('Add Money', style: TextStyle(color: Colors.black, fontSize: 10),),
+                          child: const Text(
+                            'Add Money',
+                            style: TextStyle(color: Colors.black, fontSize: 10),
+                          ),
                           color: Colors.transparent,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.grey.shade300, width: 1),
+                            side: BorderSide(
+                                color: Colors.grey.shade300, width: 1),
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       Container(
                         width: 30,
                         height: 3,
@@ -294,7 +332,9 @@ class _HomePageState extends State<HomePage> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      const SizedBox(height: 8,),
+                      const SizedBox(
+                        height: 8,
+                      ),
                     ],
                   ),
                 ),
@@ -337,15 +377,21 @@ class _HomePageState extends State<HomePage> {
                                     child: Icon(_services[index][1], color: Colors.white, size: 25,),
                                   ),
                                 ),
-                                const SizedBox(height: 10,),
-                                Text(_services[index][0], style: TextStyle(color: Colors.grey.shade800, fontSize: 12),),
-                              ],
-                            ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                _services[index][0],
+                                style: TextStyle(
+                                    color: Colors.grey.shade800, fontSize: 12),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
               ])
             ),
@@ -358,24 +404,28 @@ class _HomePageState extends State<HomePage> {
                     FadeInDown(
                       duration: const Duration(milliseconds: 500),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Today', style: TextStyle(color: Colors.grey.shade800, fontSize: 14, fontWeight: FontWeight.w600),),
-                          const SizedBox(width: 10,),
-                          Observer(
-                            builder: (_) {
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Today',
+                              style: TextStyle(
+                                  color: Colors.grey.shade800,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Observer(builder: (_) {
                               return Text(
-                                '\₹ ${_.watch<LoggedInStore>().balance}', 
-                                style: const TextStyle(
-                                  color: Colors.black, 
-                                  fontSize: 16, 
-                                  fontWeight: FontWeight.w700,
-                                  )
-                              );
-                            } 
-                          ),
-                        ]
-                      ),
+                                  '\₹ ${_.watch<LoggedInStore>().balance}',
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ));
+                            }),
+                          ]),
                     ),
                     Expanded(
                       child: ListView.builder(
@@ -387,7 +437,8 @@ class _HomePageState extends State<HomePage> {
                             duration: const Duration(milliseconds: 500),
                             child: Container(
                               margin: const EdgeInsets.only(bottom: 10),
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(15),
@@ -401,23 +452,50 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               ),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
-                                      Image.network(_transactions[index][1], width: 50, height: 50,),
-                                      const SizedBox(width: 15,),
+                                      Image.network(
+                                        _transactions[index][1],
+                                        width: 50,
+                                        height: 50,
+                                      ),
+                                      const SizedBox(
+                                        width: 15,
+                                      ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(_transactions[index][0], style: TextStyle(color: Colors.grey.shade900, fontWeight: FontWeight.w500, fontSize: 14),),
-                                          const SizedBox(height: 5,),
-                                          Text(_transactions[index][2], style: TextStyle(color: Colors.grey.shade500, fontSize: 12),),
+                                          Text(
+                                            _transactions[index][0],
+                                            style: TextStyle(
+                                                color: Colors.grey.shade900,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            _transactions[index][2],
+                                            style: TextStyle(
+                                                color: Colors.grey.shade500,
+                                                fontSize: 12),
+                                          ),
                                         ],
                                       ),
                                     ],
                                   ),
-                                  Text(_transactions[index][3], style: TextStyle(color: Colors.grey.shade800, fontSize: 16, fontWeight: FontWeight.w700),),
+                                  Text(
+                                    _transactions[index][3],
+                                    style: TextStyle(
+                                        color: Colors.grey.shade800,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700),
+                                  ),
                                 ],
                               ),
                             ),
@@ -429,9 +507,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             )
-          ]
-        )
-      ),
+          ])),
     );
   }
 
