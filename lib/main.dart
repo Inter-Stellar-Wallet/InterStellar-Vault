@@ -7,25 +7,26 @@ import 'package:day40/pages/home_page.dart';
 import 'package:day40/store/LoggedIn.dart';
 import 'package:toastification/toastification.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 void main() async {
-  
   WidgetsFlutterBinding.ensureInitialized();
   await initLocalStorage();
-  
-  runApp(
-    ToastificationWrapper(
-      child: RootNavigator(),
-    )
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  runApp(ToastificationWrapper(
+    child: RootNavigator(),
+  ));
 }
 
-
 class RootNavigator extends StatelessWidget {
-
   RootNavigator({Key? key}) : super(key: key);
-  
+
   final LoggedInStore loggedInStore = LoggedInStore();
-  
 
   @override
   Widget build(BuildContext context) {
