@@ -53,9 +53,10 @@ class LoginForm extends StatelessWidget {
             return ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               onPressed: () {
-                StellarHelper.createWallet().then((wallet) {
-                  // loggedInStore.setWallet(wallet);
-                  // loggedInStore.setIsLoggedIn(true);
+                StellarHelper.createWallet().then((wallet) async {
+                  
+                  await StellarHelper.getKeyPair();
+                  await StellarHelper.fundAccount();
                   _.read<LoggedInStore>().setIsLoggedIn(true);
                   _.read<LoggedInStore>().setWallet(wallet);
                   toastification.show(

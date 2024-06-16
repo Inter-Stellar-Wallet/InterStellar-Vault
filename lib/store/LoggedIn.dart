@@ -11,6 +11,9 @@ abstract class LoggedIn with Store {
   @observable
   Wallet? wallet;
 
+  @observable
+  String balance = "0";
+
   @action
   void setIsLoggedIn(bool val) {
     isloggedin = val;
@@ -20,4 +23,10 @@ abstract class LoggedIn with Store {
   void setWallet(Wallet wlt) {
     wallet = wlt;
   }
+
+  @action
+  void setBalance(String val) {
+    balance = val;
+  }
+
 }

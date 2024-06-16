@@ -62,6 +62,7 @@ class StellarHelper {
     }
 
     String accountId = keyPair0!.accountId;
+    print(accountId);
     AccountResponse _account = await sdk.accounts.account(accountId);
     accountData = _account;
 
