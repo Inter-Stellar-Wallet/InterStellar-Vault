@@ -7,7 +7,7 @@ class LoggedInStore = LoggedIn with _$LoggedInStore;
 abstract class LoggedIn with Store{
 
   @observable
-  bool isloggedin = false;
+  bool isloggedin = true;
 
   @action 
   void setIsLoggedIn(bool val) {
