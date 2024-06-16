@@ -2,8 +2,11 @@ import 'package:animate_do/animate_do.dart';
 import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:interstellar/helper/stellar.dart';
+import 'package:interstellar/store/LoggedIn.dart';
 import 'package:pattern_formatter/pattern_formatter.dart';
+import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
 
 class SendMoney extends StatefulWidget {
@@ -216,26 +219,34 @@ class _SendMoneyState extends State<SendMoney> {
                     elevation: 5,
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.black,
-                    child: MaterialButton(
-                      onPressed: () {
-                        print(widget.qr_data);
-                        double balanceD = double.parse(amount.text.substring(1,amount.text.length)) * 8.21;
-                        StellarHelper.sendPayment(balanceD.toString(), widget.qr_data!);
-                        toastification.show(
-                          context: context,
-                          type: ToastificationType.success,
-                          style: ToastificationStyle.flat,
-                          title: const Text('Payment Successfull'),
-                          description: Text("Sent ${amount.text} to ${widget.name}"),
-                          alignment: Alignment.topLeft,
-                          autoCloseDuration: const Duration(seconds: 4),
+                    child: Observer(builder: (_)  {
+                        return MaterialButton(
+                          onPressed: () async {
+                            double balanceD = double.parse(amount.text.substring(1,amount.text.length)) * 8.21;
+                            print(widget.qr_data);
+                            print(balanceD.toString());
+                            await StellarHelper.sendPayment(balanceD.toStringAsFixed(3), widget.qr_data!);
+
+                            StellarHelper.getAccountBalance().then((val) => {
+                              _.read()<LoggedInStore>().setBalance(val)
+                            });
+                            toastification.show(
+                              context: context,
+                              type: ToastificationType.success,
+                              style: ToastificationStyle.flat,
+                              title: const Text('Payment Successfull'),
+                              description: Text("Sent ${amount.text} to ${widget.name}"),
+                              alignment: Alignment.topLeft,
+                              autoCloseDuration: const Duration(seconds: 4),
+                            );
+                            Navigator.of(context).pushReplacementNamed('/');
+                          },
+                          minWidth: double.infinity,
+                          height: 50,
+                          child: Text("Send", style: TextStyle(color: Colors.white, fontSize: 16),),
                         );
-                        Navigator.of(context).pushReplacementNamed('/');
-                      },
-                      minWidth: double.infinity,
-                      height: 50,
-                      child: Text("Send", style: TextStyle(color: Colors.white, fontSize: 16),),
-                    ),
+
+                    }),
                   ),
                 ),
               ),
