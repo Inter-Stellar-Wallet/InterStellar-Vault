@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:day40/pages/contact.dart';
 import 'package:day40/pages/my_qr.dart';
+import 'package:day40/scanner/mobile_scanner_overlay.dart';
 import 'package:day40/store/LoggedIn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
@@ -23,9 +24,9 @@ class _HomePageState extends State<HomePage> {
 
   final List<dynamic> _services = [
     ['Transfer', Iconsax.export_1, Colors.blue],
+    ['Scanner', Iconsax.scan1, Colors.green],
     ['Top-up', Iconsax.import, Colors.pink],
     ['Bill', Iconsax.wallet_3, Colors.orange],
-    ['More', Iconsax.more, Colors.green],
   ];
 
   final List<dynamic> _transactions = [
@@ -319,6 +320,9 @@ class _HomePageState extends State<HomePage> {
                               if (_services[index][0] == 'Transfer') { 
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => const ContactPage()));
                               }
+                              if (_services[index][0] == 'Scanner') { 
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => BarcodeScannerWithOverlay()));
+                              }
                             },
                             child: Column(
                               children: [
@@ -345,6 +349,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ])
             ),
+            
             SliverFillRemaining(
               child: Container(
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
