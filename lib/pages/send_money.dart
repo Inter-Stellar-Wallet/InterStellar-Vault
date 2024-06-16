@@ -159,7 +159,7 @@ class _SendMoneyState extends State<SendMoney> {
                           fontWeight: FontWeight.bold),
                       onSubmitted: (value) {
                         setState(() {
-                          amount.text = "XLM" + value + ".00";
+                          amount.text = "\₹" + value + ".00";
                         });
                       },
                       onTap: () {

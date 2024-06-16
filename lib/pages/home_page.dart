@@ -315,7 +315,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Observer(builder: (_) {
                             return Text(
-                              'XLM ${_.watch<LoggedInStore>().balance}',
+                              '\₹ ${_.watch<LoggedInStore>().balance}',
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 22,
@@ -353,7 +353,7 @@ class _HomePageState extends State<HomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'XLM',
+                                    '\₹',
                                     style: TextStyle(
                                         color: Colors.grey.shade800,
                                         fontSize: 12),
@@ -518,7 +518,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Observer(builder: (_) {
                                     return Text(
-                                        'XLM ${_.watch<LoggedInStore>().balance}',
+                                        '\₹ 2100',
                                         style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 16,
@@ -593,7 +593,7 @@ class _HomePageState extends State<HomePage> {
                                           ],
                                         ),
                                         Text(
-                                          "XLM" + txList[index]['amount'],
+                                          "\₹" + txList[index]['amount'],
                                           style: TextStyle(
                                               color: Colors.grey.shade800,
                                               fontSize: 16,
