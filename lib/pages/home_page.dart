@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:interstellar/helper/stellar.dart';
 import 'package:interstellar/pages/contact.dart';
+import 'package:interstellar/pages/create_token.dart';
 import 'package:interstellar/pages/my_qr.dart';
 import 'package:interstellar/scanner/mobile_scanner_overlay.dart';
 import 'package:interstellar/store/LoggedIn.dart';
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
   final List<dynamic> _services = [
     ['Transfer', Iconsax.export_1, Colors.blue],
     ['Scanner', Icons.qr_code_scanner_outlined, Colors.green],
-    ['Top-up', Iconsax.import, Colors.pink],
+    ['Create Token', Iconsax.coin, Colors.pink],
     ['Bill', Iconsax.wallet_3, Colors.orange],
   ];
 
@@ -437,6 +438,14 @@ class _HomePageState extends State<HomePage> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               BarcodeScannerWithOverlay()));
+                                }
+
+                                if (_services[index][0] == 'Create Token') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CreateTokenPage(name: "Buisness Token",avatar: "assets/images/coin.jpg",qr_data: "dasd",)));
                                 }
                               },
                               child: Column(
