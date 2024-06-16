@@ -40,9 +40,20 @@ mixin _$LoggedInStore on LoggedIn, Store {
   }
 
   @override
+  void setWallet(Wallet wlt) {
+    final _$actionInfo =
+        _$LoggedInActionController.startAction(name: 'LoggedIn.setWallet');
+    try {
+      return super.setWallet(wlt);
+    } finally {
+      _$LoggedInActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-      isloggedin: ${isloggedin}
+isloggedin: ${isloggedin}
     ''';
   }
 }
