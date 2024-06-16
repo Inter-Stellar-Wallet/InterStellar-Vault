@@ -40,10 +40,15 @@ dependencies:
   align_positioned: ^3.0.0
   flutter_advanced_drawer: ^1.2.3+1
   bouncing_widget: ^2.0.0
+  mobx: ^2.3.3+2
+  flutter_mobx: ^2.2.1+1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
+  mobx_codegen:
+  build_runner:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
