@@ -24,6 +24,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late ScrollController _scrollController;
   bool _isScrolled = false;
+  String phone = "";
+  String email = "";
 
   void _getAllUsers() async {
     final _users = List<User>.empty(growable: true);
@@ -37,6 +39,8 @@ class _HomePageState extends State<HomePage> {
     print(_users.length);
 
     context.read<LoggedInStore>().setUsers(_users);
+
+    getDetails();
   }
 
   final List<dynamic> _services = [
@@ -92,6 +96,20 @@ class _HomePageState extends State<HomePage> {
     _getAllUsers();
 
     super.initState();
+  }
+
+  void getDetails() {
+    final users = context.read<LoggedInStore>().users;
+    final accountId = StellarHelper.accountData!.accountId;
+
+    for (var user in users) {
+      if (user.accountId == accountId) {
+        setState(() {
+          phone = user.phone;
+          email = user.email;
+        });
+      }
+    }
   }
 
   void _listenToScrollChange() {
@@ -154,11 +172,11 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(
                   height: 10,
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 30.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0),
                   child: Text(
-                    "John Doe",
-                    style: TextStyle(
+                    email,
+                    style: const TextStyle(
                         color: Colors.white, fontWeight: FontWeight.w600),
                   ),
                 ),
