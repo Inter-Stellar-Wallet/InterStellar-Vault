@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:day40/helper/stellar.dart';
 import 'package:day40/store/LoggedIn.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../../constants.dart';
@@ -44,42 +47,43 @@ class _LoginFormState extends State<LoginForm> {
     final email = _formKey.currentState?.fields['email']?.value;
     final phone = _formKey.currentState?.fields['phone']?.value;
 
+    final wallet = await _createWallet();
+
+    if (wallet == null) {
+      throw Exception('Wallet creation failed');
+    }
+
     final user = <String, dynamic>{
       "email": email,
       "phone": phone,
-      "accountId": "test"
+      "accountId": StellarHelper.accountData!.accountId,
     };
 
-    db.collection("users").add(user).then((DocumentReference doc) =>
-        print('DocumentSnapshot added with ID: ${doc.id}'));
+    DocumentReference doc = await db.collection("users").add(user);
+    print('DocumentSnapshot added with ID: ${doc.id}');
+
+    context.read<LoggedInStore>().setWallet(wallet);
+    context.read<LoggedInStore>().setIsLoggedIn(true);
+
+    toastification.show(
+      context: context,
+      type: ToastificationType.success,
+      style: ToastificationStyle.flat,
+      title: const Text("Wallet Creation Success"),
+      description: const Text("Wallet created"),
+      alignment: Alignment.topLeft,
+      autoCloseDuration: const Duration(seconds: 4),
+    );
   }
 
-  void _onWalletCreateClick() async {
+  Future<Wallet?> _createWallet() async {
     try {
       final wallet = await StellarHelper.createWallet();
-      final keyPair = await StellarHelper.getKeyPair();
-      final funded = await StellarHelper.fundAccount();
-      final accData = await StellarHelper.getAccountData();
-
-      print("${accData.accountId}");
-
       await StellarHelper.getKeyPair();
       await StellarHelper.fundAccount();
-      context.read<LoggedInStore>().setIsLoggedIn(true);
-      context.read<LoggedInStore>().setWallet(wallet);
+      await StellarHelper.getAccountData();
 
-      context.read<LoggedInStore>().setWallet(wallet);
-      context.read<LoggedInStore>().setIsLoggedIn(true);
-
-      toastification.show(
-        context: context,
-        type: ToastificationType.success,
-        style: ToastificationStyle.flat,
-        title: const Text("Wallet Creation Success"),
-        description: const Text("Wallet created"),
-        alignment: Alignment.topLeft,
-        autoCloseDuration: const Duration(seconds: 4),
-      );
+      return wallet;
     } catch (e) {
       toastification.show(
         context: context,
@@ -90,6 +94,8 @@ class _LoginFormState extends State<LoginForm> {
         alignment: Alignment.topLeft,
         autoCloseDuration: const Duration(seconds: 4),
       );
+
+      return null;
     }
   }
 
