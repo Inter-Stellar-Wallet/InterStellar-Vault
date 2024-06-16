@@ -1,3 +1,4 @@
+import 'package:day40/helper/stellar.dart';
 import 'package:day40/pages/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
@@ -30,6 +31,7 @@ class RootNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final LoggedInStore _loginStore = LoggedInStore();
 
     return MultiProvider(
@@ -41,6 +43,16 @@ class RootNavigator extends StatelessWidget {
           builder: (BuildContext context) {
             return Observer(
               builder: (_) {
+
+                StellarHelper.getWallet().then((val) => {
+
+                  if (val == null) {
+                    _.read<LoggedInStore>().setIsLoggedIn(false)
+                  } else {
+                    _.read<LoggedInStore>().setIsLoggedIn(true)
+                  }
+                });
+
                 if (_loginStore.isloggedin) {
                   return const HomePage();
                 } else {

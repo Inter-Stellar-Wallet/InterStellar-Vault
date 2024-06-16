@@ -1,8 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:day40/pages/contact.dart';
+import 'package:day40/store/LoggedIn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:localstorage/localstorage.dart';
+import 'package:provider/provider.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -127,6 +131,18 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {},
                   leading: const Icon(Iconsax.setting_2),
                   title: const Text('Settings'),
+                ),
+                Observer(
+                  builder: (_) {
+                    return ListTile(
+                        onTap: () {
+                          localStorage.removeItem('mnemonic');
+                          _.read<LoggedInStore>().setIsLoggedIn(false);
+                        },
+                        leading: const Icon(Icons.logout),
+                        title: const Text('Logout'),
+                      );
+                  }
                 ),
                 ListTile(
                   onTap: () {},
