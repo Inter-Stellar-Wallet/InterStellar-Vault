@@ -1,11 +1,11 @@
-import 'package:day40/helper/stellar.dart';
-import 'package:day40/pages/login/login_screen.dart';
+import 'package:interstellar/helper/stellar.dart';
+import 'package:interstellar/pages/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import 'package:day40/pages/home_page.dart';
-import 'package:day40/store/LoggedIn.dart';
+import 'package:interstellar/pages/home_page.dart';
+import 'package:interstellar/store/LoggedIn.dart';
 import 'package:toastification/toastification.dart';
 
 import 'package:firebase_core/firebase_core.dart';

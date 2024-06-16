@@ -70,6 +70,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '422989871043',
     projectId: 'stellar-wallet-7b278',
     storageBucket: 'stellar-wallet-7b278.appspot.com',
-    iosBundleId: 'com.example.day40',
+    iosBundleId: 'com.example.interstellar',
   );
 }

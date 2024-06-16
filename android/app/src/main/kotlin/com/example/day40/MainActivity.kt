@@ -1,4 +1,4 @@
-package com.example.day40
+package com.example.interstellar
 
 import io.flutter.embedding.android.FlutterActivity
 

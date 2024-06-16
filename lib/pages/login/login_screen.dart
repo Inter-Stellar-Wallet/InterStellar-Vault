@@ -1,6 +1,6 @@
-import 'package:day40/pages/login/components/background.dart';
+import 'package:interstellar/pages/login/components/background.dart';
 import 'package:flutter/material.dart';
-import 'package:day40/responsive.dart';
+import 'package:interstellar/responsive.dart';
 
 import 'components/login_form.dart';
 import 'components/login_screen_top_image.dart';
