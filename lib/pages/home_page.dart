@@ -39,13 +39,12 @@ class _HomePageState extends State<HomePage> {
     print(_users.length);
 
     context.read<LoggedInStore>().setUsers(_users);
-
-    getDetails();
+    await _getDetails();
   }
 
   final List<dynamic> _services = [
     ['Transfer', Iconsax.export_1, Colors.blue],
-    ['Scanner', Iconsax.scan1, Colors.green],
+    ['Scanner', Icons.qr_code_scanner_outlined, Colors.green],
     ['Top-up', Iconsax.import, Colors.pink],
     ['Bill', Iconsax.wallet_3, Colors.orange],
   ];
@@ -98,8 +97,9 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  void getDetails() {
+  Future<void> _getDetails() async {
     final users = context.read<LoggedInStore>().users;
+    await StellarHelper.getAccountData();
     final accountId = StellarHelper.accountData!.accountId;
 
     for (var user in users) {
@@ -411,7 +411,7 @@ class _HomePageState extends State<HomePage> {
                     height: 20,
                   ),
                   Container(
-                    padding: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.only(top: 20, left: 12),
                     height: 115,
                     width: double.infinity,
                     child: ListView.builder(
