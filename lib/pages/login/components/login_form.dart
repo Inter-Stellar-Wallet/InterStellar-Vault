@@ -2,6 +2,7 @@ import 'package:day40/helper/stellar.dart';
 import 'package:day40/store/LoggedIn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../../constants.dart';
@@ -12,7 +13,6 @@ class LoginForm extends StatelessWidget {
   }) : super(key: key);
 
   final LoggedInStore loggedInStore = LoggedInStore();
-
 
   @override
   Widget build(BuildContext context) {
@@ -49,51 +49,44 @@ class LoginForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: defaultPadding),
-
-          Observer(
-            builder: (_) {
-              return ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black
-                ),
-                onPressed: () {
-                    StellarHelper.createWallet().then((wallet) {
-                      
-                      loggedInStore.setWallet(wallet);
-                      loggedInStore.setIsLoggedIn(true);
-                      toastification.show(
-                          context: context,
-                          type: ToastificationType.success,
-                          style: ToastificationStyle.flat,
-                          title: const Text("Wallet Creation Failed"),
-                          description: const Text("Wallet created"),
-                          alignment: Alignment.topLeft,
-                          autoCloseDuration: const Duration(seconds: 4),
-                        );
-
-  
-                    }).catchError((err) {
-                        toastification.show(
-                          context: context,
-                          type: ToastificationType.error,
-                          style: ToastificationStyle.flat,
-                          title: const Text("Wallet Creation Failed"),
-                          description: Text(err.toString()),
-                          alignment: Alignment.topLeft,
-                          autoCloseDuration: const Duration(seconds: 4),
-                        );
-                    });
-                },
-                child: Text(
-                  "Create Wallet".toUpperCase(),
-                  style: const TextStyle(
-                    color: Colors.white
-                  ),
-                ),
-              );
-            }
-          ),
+          Observer(builder: (_) {
+            return ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+              onPressed: () {
+                StellarHelper.createWallet().then((wallet) {
+                  // loggedInStore.setWallet(wallet);
+                  // loggedInStore.setIsLoggedIn(true);
+                  _.read<LoggedInStore>().setIsLoggedIn(true);
+                  _.read<LoggedInStore>().setWallet(wallet);
+                  toastification.show(
+                    context: context,
+                    type: ToastificationType.success,
+                    style: ToastificationStyle.flat,
+                    title: const Text("Wallet Creation Success"),
+                    description: const Text("Wallet created"),
+                    alignment: Alignment.topLeft,
+                    autoCloseDuration: const Duration(seconds: 4),
+                  );
+                }).catchError((err) {
+                  toastification.show(
+                    context: context,
+                    type: ToastificationType.error,
+                    style: ToastificationStyle.flat,
+                    title: const Text("Wallet Creation Failed"),
+                    description: Text(err.toString()),
+                    alignment: Alignment.topLeft,
+                    autoCloseDuration: const Duration(seconds: 4),
+                  );
+                });
+              },
+              child: Text(
+                "Create Wallet".toUpperCase(),
+                style: const TextStyle(color: Colors.white),
+              ),
+            );
+          }),
           const SizedBox(height: defaultPadding),
+          const SizedBox(height: 400),
         ],
       ),
     );
