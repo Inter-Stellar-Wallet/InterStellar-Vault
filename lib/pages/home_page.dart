@@ -112,6 +112,8 @@ class _HomePageState extends State<HomePage> {
       };
     }).toList();
 
+    print("Pulled ${_txList.length}");
+
     setState(() {
       txList = _txList;
     });
@@ -252,6 +254,8 @@ class _HomePageState extends State<HomePage> {
             body: RefreshIndicator(
                 onRefresh: () async {
                   print("pulled");
+
+                  getTxnData();
 
                   StellarHelper.getAccountData().then((val) {
                     StellarHelper.getAccountBalance().then((val) =>
@@ -456,7 +460,12 @@ class _HomePageState extends State<HomePage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                CreateTokenPage(name: "Buisness Token",avatar: "assets/images/coin.jpg",qr_data: "dasd",)));
+                                                CreateTokenPage(
+                                                  name: "Buisness Token",
+                                                  avatar:
+                                                      "assets/images/coin.jpg",
+                                                  qr_data: "dasd",
+                                                )));
                                   }
                                 },
                                 child: Column(
