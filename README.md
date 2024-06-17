@@ -1,5 +1,5 @@
 # Interstellar
-[![Interstellar Logo](https://github.com/Inter-Stellar-Wallet/InterStellar-Vault/blob/main/assets/images/logo.png)
+<img src="https://github.com/Inter-Stellar-Wallet/InterStellar-Vault/blob/main/assets/images/logo.png" alt="Interstellar Logo" width="500" height="500">
 
 Interstellar addresses several key challenges in modern financial transactions and customer engagement, providing solutions that enhance efficiency, security, and user experience.
 
