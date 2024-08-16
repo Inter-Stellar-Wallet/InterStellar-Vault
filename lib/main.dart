@@ -31,7 +31,6 @@ class RootNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final LoggedInStore _loginStore = LoggedInStore();
 
     return MultiProvider(
@@ -39,27 +38,24 @@ class RootNavigator extends StatelessWidget {
         Provider(create: (_) => _loginStore),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Builder(
           builder: (BuildContext context) {
             return Observer(
               builder: (_) {
-
                 StellarHelper.getWallet().then((val) async => {
-
-                  if (val == null) {
-                    _.read<LoggedInStore>().setIsLoggedIn(false)
-                  } else {
-                    await StellarHelper.getKeyPair(),
-                    await StellarHelper.getAccountData(),
-                    _.read<LoggedInStore>().setWallet(val),
-                    await StellarHelper.getAccountBalance().then((val) => {
-                       _.read<LoggedInStore>().setBalance(val)
-                    }),
-
-                    _.read<LoggedInStore>().setIsLoggedIn(true)
-                  }
-
-                });
+                      if (val == null)
+                        {_.read<LoggedInStore>().setIsLoggedIn(false)}
+                      else
+                        {
+                          await StellarHelper.getKeyPair(),
+                          await StellarHelper.getAccountData(),
+                          _.read<LoggedInStore>().setWallet(val),
+                          await StellarHelper.getAccountBalance().then((val) =>
+                              {_.read<LoggedInStore>().setBalance(val)}),
+                          _.read<LoggedInStore>().setIsLoggedIn(true)
+                        }
+                    });
 
                 if (_loginStore.isloggedin) {
                   return const HomePage();
