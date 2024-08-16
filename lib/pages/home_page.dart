@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
       }
     });
 
-    print(_users.length)
+    print(_users.length);
 
     context.read<LoggedInStore>().setUsers(_users);
   }
@@ -46,12 +46,42 @@ class _HomePageState extends State<HomePage> {
   ];
 
   final List<dynamic> _transactions = [
-    ['Amazon', 'https://img.icons8.com/color/2x/amazon.png', '6:25pm', '\₹ 567'],
-    ['Cash from ATM', 'https://img.icons8.com/external-kiranshastry-lineal-color-kiranshastry/2x/external-atm-banking-and-finance-kiranshastry-lineal-color-kiranshastry.png', '5:50pm', '\₹ 200.00'],
-    ['Netflix', 'https://img.icons8.com/color-glass/2x/netflix.png', '2:22pm', '\₹ 1356'],
-    ['Apple Store', 'https://img.icons8.com/color/2x/mac-os--v2.gif', '6:25pm', '\₹ 366'],
-    ['Cash from ATM', 'https://img.icons8.com/external-kiranshastry-lineal-color-kiranshastry/2x/external-atm-banking-and-finance-kiranshastry-lineal-color-kiranshastry.png', '5:50pm', '\₹ 200.00'],
-    ['Netflix', 'https://img.icons8.com/color-glass/2x/netflix.png', '2:22pm', '\₹ 1000']
+    [
+      'Amazon',
+      'https://img.icons8.com/color/2x/amazon.png',
+      '6:25pm',
+      '\₹ 567'
+    ],
+    [
+      'Cash from ATM',
+      'https://img.icons8.com/external-kiranshastry-lineal-color-kiranshastry/2x/external-atm-banking-and-finance-kiranshastry-lineal-color-kiranshastry.png',
+      '5:50pm',
+      '\₹ 200.00'
+    ],
+    [
+      'Netflix',
+      'https://img.icons8.com/color-glass/2x/netflix.png',
+      '2:22pm',
+      '\₹ 1356'
+    ],
+    [
+      'Apple Store',
+      'https://img.icons8.com/color/2x/mac-os--v2.gif',
+      '6:25pm',
+      '\₹ 366'
+    ],
+    [
+      'Cash from ATM',
+      'https://img.icons8.com/external-kiranshastry-lineal-color-kiranshastry/2x/external-atm-banking-and-finance-kiranshastry-lineal-color-kiranshastry.png',
+      '5:50pm',
+      '\₹ 200.00'
+    ],
+    [
+      'Netflix',
+      'https://img.icons8.com/color-glass/2x/netflix.png',
+      '2:22pm',
+      '\₹ 1000'
+    ]
   ];
 
   @override
