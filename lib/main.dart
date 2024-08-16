@@ -1,12 +1,17 @@
 import 'package:day40/pages/login/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'package:day40/pages/home_page.dart';
 import 'package:day40/store/LoggedIn.dart';
 import 'package:toastification/toastification.dart';
 
-void main() {
+void main() async {
+  
+  WidgetsFlutterBinding.ensureInitialized();
+  await initLocalStorage();
+  
   runApp(
     ToastificationWrapper(
       child: RootNavigator(),
@@ -18,13 +23,9 @@ void main() {
 class RootNavigator extends StatelessWidget {
 
   RootNavigator({Key? key}) : super(key: key);
-
-
+  
   final LoggedInStore loggedInStore = LoggedInStore();
-
-  final Fluttertoast ft = Fluttertoast();
-
-
+  
 
   @override
   Widget build(BuildContext context) {
