@@ -341,40 +341,53 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SliverList(
-              delegate: SliverChildListDelegate([
-                const SizedBox(height: 20,),
-                Container(
-                  padding: const EdgeInsets.only(top: 20),
-                  height: 115,
-                  width: double.infinity,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _services.length,
-                    itemBuilder: (context, index) {
-                      return FadeInDown(
-                        duration: Duration(milliseconds: (index + 1) * 100),
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: GestureDetector(
-                            onTap: () {
-                              if (_services[index][0] == 'Transfer') { 
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const ContactPage()));
-                              }
-                              if (_services[index][0] == 'Scanner') { 
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => BarcodeScannerWithOverlay()));
-                              }
-                            },
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: 60,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade900,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Center(
-                                    child: Icon(_services[index][1], color: Colors.white, size: 25,),
+                delegate: SliverChildListDelegate([
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                padding: const EdgeInsets.only(top: 20),
+                height: 115,
+                width: double.infinity,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _services.length,
+                  itemBuilder: (context, index) {
+                    return FadeInDown(
+                      duration: Duration(milliseconds: (index + 1) * 100),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: GestureDetector(
+                          onTap: () {
+                            if (_services[index][0] == 'Transfer') {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ContactPage()));
+                            }
+                            if (_services[index][0] == 'Scanner') {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          BarcodeScannerWithOverlay()));
+                            }
+                          },
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade900,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    _services[index][1],
+                                    color: Colors.white,
+                                    size: 25,
                                   ),
                                 ),
                               ),
@@ -393,9 +406,8 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 ),
-              ])
-            ),
-            
+              ),
+            ])),
             SliverFillRemaining(
               child: Container(
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
