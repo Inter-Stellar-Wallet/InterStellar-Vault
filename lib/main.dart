@@ -1,9 +1,9 @@
+import 'package:day40/pages/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'package:day40/pages/home_page.dart';
 import 'package:day40/store/LoggedIn.dart';
-import 'package:day40/pages/login/page_1.dart';
 
 
 void main() {
@@ -25,7 +25,7 @@ class RootNavigator extends StatelessWidget {
               if (loggedInStore.isloggedin) {
                 return const HomePage();
               } else {
-                return WelcomePage();
+                return LoginScreen();
               }
             },
           );
