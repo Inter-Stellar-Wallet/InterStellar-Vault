@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-
 import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart';
 import 'package:localstorage/localstorage.dart';
 
@@ -139,5 +138,22 @@ class StellarHelper {
     print("Transaction Success - ${response.success}");
 
     return response;
+  }
+
+
+  static Future<Asset> createToken(
+      String tokenName, int tokenAmount
+    ) async {
+    if (accountData == null || keyPair0 == null) {
+      throw Exception('Get Account Data first');
+    }
+    AccountResponse sender = await sdk.accounts.account(accountData!.accountId);
+
+    // Load sender account data from the stellar network.
+    Asset asset = Asset.createNonNativeAsset(tokenName, keyPair0!.toString());
+
+    // Sign the transaction with the sender's key pair.
+    
+    return asset;
   }
 }
