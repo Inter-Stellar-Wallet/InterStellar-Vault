@@ -2,7 +2,9 @@ import 'package:animate_do/animate_do.dart';
 import 'package:bouncing_widget/bouncing_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:interstellar/helper/stellar.dart';
 import 'package:pattern_formatter/pattern_formatter.dart';
+import 'package:toastification/toastification.dart';
 
 class SendMoney extends StatefulWidget {
   final String name;
@@ -102,7 +104,7 @@ class _SendMoneyState extends State<SendMoney> {
                     style: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
                     onSubmitted: (value) {
                       setState(() {
-                        amount.text = "\$" + value + ".00";
+                        amount.text = "\₹" + value + ".00";
                       });
                     },
                     onTap: () {
@@ -216,6 +218,18 @@ class _SendMoneyState extends State<SendMoney> {
                     color: Colors.black,
                     child: MaterialButton(
                       onPressed: () {
+                        print(widget.qr_data);
+                        double balanceD = double.parse(amount.text.substring(1,amount.text.length)) * 8.21;
+                        StellarHelper.sendPayment(balanceD.toString(), widget.qr_data!);
+                        toastification.show(
+                          context: context,
+                          type: ToastificationType.success,
+                          style: ToastificationStyle.flat,
+                          title: const Text('Payment Successfull'),
+                          description: Text("Sent ${amount.text} to ${widget.name}"),
+                          alignment: Alignment.topLeft,
+                          autoCloseDuration: const Duration(seconds: 4),
+                        );
                         Navigator.of(context).pushReplacementNamed('/');
                       },
                       minWidth: double.infinity,
