@@ -128,6 +128,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> _addFunds() async {
+    // print(StellarHelper.accountData!.accountId);
+    StellarHelper.fundAccount();
+  }
+
   final _advancedDrawerController = AdvancedDrawerController();
 
   @override
