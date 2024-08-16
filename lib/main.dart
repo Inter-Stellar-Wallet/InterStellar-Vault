@@ -10,6 +10,8 @@ import 'package:toastification/toastification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
+import 'package:provider/provider.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initLocalStorage();
@@ -18,31 +20,36 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(ToastificationWrapper(
+  runApp(const ToastificationWrapper(
     child: RootNavigator(),
   ));
 }
 
 class RootNavigator extends StatelessWidget {
-  RootNavigator({Key? key}) : super(key: key);
-
-  final LoggedInStore loggedInStore = LoggedInStore();
+  const RootNavigator({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Builder(
-        builder: (BuildContext context) {
-          return Observer(
-            builder: (_) {
-              if (loggedInStore.isloggedin) {
-                return const HomePage();
-              } else {
-                return const LoginScreen();
-              }
-            },
-          );
-        },
+    final LoggedInStore _loginStore = LoggedInStore();
+
+    return MultiProvider(
+      providers: [
+        Provider(create: (_) => _loginStore),
+      ],
+      child: MaterialApp(
+        home: Builder(
+          builder: (BuildContext context) {
+            return Observer(
+              builder: (_) {
+                if (_loginStore.isloggedin) {
+                  return const HomePage();
+                } else {
+                  return const LoginScreen();
+                }
+              },
+            );
+          },
+        ),
       ),
     );
   }
