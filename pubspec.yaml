@@ -46,6 +46,7 @@ dependencies:
   stellar_flutter_sdk: ^1.8.1
   localstorage: ^5.0.0
   toastification: ^2.0.0
+  firebase_core: ^3.1.0
   
 dev_dependencies:
   flutter_test:
