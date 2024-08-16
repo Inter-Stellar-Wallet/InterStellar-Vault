@@ -382,7 +382,7 @@ class _HomePageState extends State<HomePage> {
                                 height: 30,
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 0),
-                                onPressed: () {},
+                                onPressed: _addFunds,
                                 child: const Text(
                                   'Add Money',
                                   style: TextStyle(

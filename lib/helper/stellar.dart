@@ -49,7 +49,7 @@ class StellarHelper {
     if (keyPair0 == null) {
       throw Exception('Generate KeyPair first');
     }
-
+    // print(keyPair0?.accountId.length);
     bool funded = await FriendBot.fundTestAccount(keyPair0!.accountId);
     print("Funded Account: $funded");
 
