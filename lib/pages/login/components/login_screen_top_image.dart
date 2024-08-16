@@ -12,6 +12,8 @@ class LoginScreenTopImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+
+        const SizedBox(height: defaultPadding * 8),
         const Text(
           "Create Wallet",
           style: TextStyle(fontWeight: FontWeight.bold),
