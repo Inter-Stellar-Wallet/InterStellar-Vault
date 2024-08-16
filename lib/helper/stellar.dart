@@ -111,4 +111,30 @@ class StellarHelper {
 
     return payments.records!;
   }
+
+  static Future<SubmitTransactionResponse> sendPayment(
+      String amount, String to) async {
+    if (accountData == null || keyPair0 == null) {
+      throw Exception('Get Account Data first');
+    }
+
+    // Load sender account data from the stellar network.
+    AccountResponse sender = await sdk.accounts.account(accountData!.accountId);
+
+    // Build the transaction to send 100 XLM native payment from sender to destination
+    Transaction transaction = TransactionBuilder(sender)
+        .addOperation(PaymentOperationBuilder(to, Asset.NATIVE, amount).build())
+        .build();
+
+    // Sign the transaction with the sender's key pair.
+    transaction.sign(keyPair0!, Network.TESTNET);
+
+    // Submit the transaction to the stellar network.
+    SubmitTransactionResponse response =
+        await sdk.submitTransaction(transaction);
+
+    print("Transaction Success - ${response.success}");
+
+    return response;
+  }
 }
