@@ -42,7 +42,7 @@ mixin _$LoggedInStore on LoggedIn, Store {
   @override
   String toString() {
     return '''
-isloggedin: ${isloggedin}
+      isloggedin: ${isloggedin}
     ''';
   }
 }

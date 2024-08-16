@@ -4,16 +4,27 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'package:day40/pages/home_page.dart';
 import 'package:day40/store/LoggedIn.dart';
-
+import 'package:toastification/toastification.dart';
 
 void main() {
-  runApp(RootNavigator());
+  runApp(
+    ToastificationWrapper(
+      child: RootNavigator(),
+    )
+  );
 }
 
 
 class RootNavigator extends StatelessWidget {
 
+  RootNavigator({Key? key}) : super(key: key);
+
+
   final LoggedInStore loggedInStore = LoggedInStore();
+
+  final Fluttertoast ft = Fluttertoast();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +36,7 @@ class RootNavigator extends StatelessWidget {
               if (loggedInStore.isloggedin) {
                 return const HomePage();
               } else {
-                return LoginScreen();
+                return const LoginScreen();
               }
             },
           );
