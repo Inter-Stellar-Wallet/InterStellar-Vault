@@ -194,7 +194,8 @@ class _ContactPageState extends State<ContactPage> {
                               MaterialPageRoute(
                                   builder: (context) => SendMoney(
                                       name: _contacts[index]['name'],
-                                      avatar: _contacts[index]['avatar'])));
+                                      avatar: _contacts[index]['avatar'],
+                      qr_data: 'xyz',)));
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: 20),
@@ -303,7 +304,8 @@ class _ContactPageState extends State<ContactPage> {
               MaterialPageRoute(
                   builder: (context) => SendMoney(
                       name: _contacts[index]['name'],
-                      avatar: _contacts[index]['avatar'])));
+                      avatar: _contacts[index]['avatar'],
+                      qr_data: 'xyz',)));
         },
         child: Container(
           margin: EdgeInsets.only(right: 20),
