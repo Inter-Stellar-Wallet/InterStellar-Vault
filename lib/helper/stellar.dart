@@ -76,7 +76,9 @@ class StellarHelper {
 
     for (Balance balance in accountData!.balances) {
       if (balance.assetType == Asset.TYPE_NATIVE) {
-        return balance.balance;
+        double balanceD = double.parse(balance.balance);
+        double balanceINR = balanceD / 8.21;
+        return balanceINR.toStringAsFixed(2);
       }
     }
 

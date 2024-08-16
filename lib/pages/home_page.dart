@@ -193,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: Icon(Iconsax.more, color: Colors.grey.shade700),
+                  icon: Icon(Icons.qr_code, color: Colors.grey.shade700),
                   onPressed: () {},
                 ),
               ],
@@ -213,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                     Observer(
                       builder: (_) {
                         return Text(
-                          '\$ ${_.watch<LoggedInStore>().balance}',
+                          '\₹ ${_.watch<LoggedInStore>().balance}',
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 22,
@@ -249,7 +249,7 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('\$', style: TextStyle(color: Colors.grey.shade800, fontSize: 22),),
+                            Text('\₹', style: TextStyle(color: Colors.grey.shade800, fontSize: 22),),
                             const SizedBox(width: 3,),
                             Observer(
                               builder: (_) {
@@ -357,7 +357,7 @@ class _HomePageState extends State<HomePage> {
                           Observer(
                             builder: (_) {
                               return Text(
-                                '\$ ${_.watch<LoggedInStore>().balance}', 
+                                '\₹ ${_.watch<LoggedInStore>().balance}', 
                                 style: const TextStyle(
                                   color: Colors.black, 
                                   fontSize: 16, 
