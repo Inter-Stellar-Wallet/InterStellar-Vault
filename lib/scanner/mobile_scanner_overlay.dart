@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:day40/scanner/scanner_barcode_label.dart';
-import 'package:day40/scanner/scanner_button_widgets.dart';
-import 'package:day40/scanner/scanner_error_widget.dart';
+import 'package:interstellar/scanner/scanner_barcode_label.dart';
+import 'package:interstellar/scanner/scanner_button_widgets.dart';
+import 'package:interstellar/scanner/scanner_error_widget.dart';
 
 class BarcodeScannerWithOverlay extends StatefulWidget {
   @override

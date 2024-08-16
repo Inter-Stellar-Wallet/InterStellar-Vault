@@ -7,7 +7,8 @@ import 'package:pattern_formatter/pattern_formatter.dart';
 class SendMoney extends StatefulWidget {
   final String name;
   final String avatar;
-  const SendMoney({ Key? key, required this.name, required this.avatar }) : super(key: key);
+  final String? qr;
+  const SendMoney({ Key? key, required this.name, required this.avatar, this.qr }) : super(key: key);
 
   @override
   _SendMoneyState createState() => _SendMoneyState();

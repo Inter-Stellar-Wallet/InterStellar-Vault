@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.day40">
+    package="com.example.interstellar">
 
 <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
@@ -8,7 +8,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
-        android:label="day40"
+        android:label="interstellar"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

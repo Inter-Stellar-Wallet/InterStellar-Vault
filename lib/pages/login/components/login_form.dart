@@ -1,8 +1,8 @@
 // ignore_for_file: avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:day40/helper/stellar.dart';
-import 'package:day40/store/LoggedIn.dart';
+import 'package:interstellar/helper/stellar.dart';
+import 'package:interstellar/store/LoggedIn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';

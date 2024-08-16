@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:day40/pages/login/login_screen.dart';
+import 'package:interstellar/pages/login/login_screen.dart';
 
 class LoginAndSignupBtn extends StatelessWidget {
   const LoginAndSignupBtn({
