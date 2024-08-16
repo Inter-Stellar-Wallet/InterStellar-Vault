@@ -7,6 +7,8 @@ class LoggedInStore = LoggedIn with _$LoggedInStore;
 abstract class LoggedIn with Store {
   @observable
   bool isloggedin = false;
+
+  @observable
   Wallet? wallet;
 
   @action

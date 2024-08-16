@@ -25,6 +25,21 @@ mixin _$LoggedInStore on LoggedIn, Store {
     });
   }
 
+  late final _$walletAtom = Atom(name: 'LoggedIn.wallet', context: context);
+
+  @override
+  Wallet? get wallet {
+    _$walletAtom.reportRead();
+    return super.wallet;
+  }
+
+  @override
+  set wallet(Wallet? value) {
+    _$walletAtom.reportWrite(value, super.wallet, () {
+      super.wallet = value;
+    });
+  }
+
   late final _$LoggedInActionController =
       ActionController(name: 'LoggedIn', context: context);
 
@@ -53,7 +68,8 @@ mixin _$LoggedInStore on LoggedIn, Store {
   @override
   String toString() {
     return '''
-isloggedin: ${isloggedin}
+isloggedin: ${isloggedin},
+wallet: ${wallet}
     ''';
   }
 }
