@@ -1,6 +1,7 @@
 
 
 
+import 'package:day40/store/LoggedIn.dart';
 import 'package:flutter/material.dart';
 
 class Welcome extends StatelessWidget{
@@ -20,6 +21,9 @@ class Welcome extends StatelessWidget{
 
 class WelcomePage extends StatelessWidget {
 
+  final LoggedInStore loggedInStore = LoggedInStore();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +32,14 @@ class WelcomePage extends StatelessWidget {
         elevation: 0,
         title: Text('Send Money', style: TextStyle(color: Colors.black),),
         leading: BackButton(color: Colors.black,),
+      ),
+      body: Center(
+        child: Text("Hello123"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          loggedInStore.setIsLoggedIn(true);
+        } ,
       ),
     );
   }
