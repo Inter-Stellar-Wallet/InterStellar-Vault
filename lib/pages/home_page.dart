@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:interstellar/helper/stellar.dart';
 import 'package:interstellar/pages/contact.dart';
 import 'package:interstellar/pages/my_qr.dart';
 import 'package:interstellar/scanner/mobile_scanner_overlay.dart';
@@ -217,341 +218,358 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      child: Scaffold(
-          backgroundColor: Colors.grey.shade100,
-          body: CustomScrollView(controller: _scrollController, slivers: [
-            SliverAppBar(
-              expandedHeight: 250.0,
-              elevation: 0,
-              pinned: true,
-              stretch: true,
-              toolbarHeight: 80,
-              backgroundColor: Colors.white,
-              leading: IconButton(
-                color: Colors.black,
-                onPressed: _handleMenuButtonPressed,
-                icon: ValueListenableBuilder<AdvancedDrawerValue>(
-                  valueListenable: _advancedDrawerController,
-                  builder: (_, value, __) {
-                    return AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 250),
-                      child: Icon(
-                        value.visible ? Iconsax.close_square : Iconsax.menu,
-                        key: ValueKey<bool>(value.visible),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              actions: [
-                IconButton(
-                  icon: Icon(Iconsax.notification, color: Colors.grey.shade700),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.qr_code, color: Colors.grey.shade700),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MyQrCode()));
-                  },
-                ),
-              ],
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(40),
-                  bottomRight: Radius.circular(40),
-                ),
-              ),
-              centerTitle: true,
-              title: AnimatedOpacity(
-                opacity: _isScrolled ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 500),
-                child: Column(
-                  children: [
-                    Observer(builder: (_) {
-                      return Text(
-                        '\₹ ${_.watch<LoggedInStore>().balance}',
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      );
-                    }),
-                    const SizedBox(
-                      height: 20,
+      child: Observer(
+        builder: (_) { 
+              return Scaffold(
+                backgroundColor: Colors.grey.shade100,
+                body: RefreshIndicator(
+                onRefresh: () async {
+                  print("pulled");
+
+                  StellarHelper.getAccountData().then((val) {
+                    StellarHelper.getAccountBalance().then((val) => {
+                      print(val),
+                      _.read<LoggedInStore>().setBalance(val)
+                    });
+                  });
+                  
+                },
+                child: CustomScrollView(controller: _scrollController, slivers: [
+                SliverAppBar(
+                  expandedHeight: 250.0,
+                  elevation: 0,
+                  pinned: true,
+                  stretch: true,
+                  toolbarHeight: 80,
+                  backgroundColor: Colors.white,
+                  leading: IconButton(
+                    color: Colors.black,
+                    onPressed: _handleMenuButtonPressed,
+                    icon: ValueListenableBuilder<AdvancedDrawerValue>(
+                      valueListenable: _advancedDrawerController,
+                      builder: (_, value, __) {
+                        return AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 250),
+                          child: Icon(
+                            value.visible ? Iconsax.close_square : Iconsax.menu,
+                            key: ValueKey<bool>(value.visible),
+                          ),
+                        );
+                      },
                     ),
-                    Container(
-                      width: 30,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade800,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                  ),
+                  actions: [
+                    IconButton(
+                      icon: Icon(Iconsax.notification, color: Colors.grey.shade700),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.qr_code, color: Colors.grey.shade700),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MyQrCode()));
+                      },
                     ),
                   ],
-                ),
-              ),
-              flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.pin,
-                titlePadding: const EdgeInsets.only(left: 20, right: 20),
-                title: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 500),
-                  opacity: _isScrolled ? 0.0 : 1.0,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      FadeIn(
-                        duration: const Duration(milliseconds: 500),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '\₹',
-                              style: TextStyle(
-                                  color: Colors.grey.shade800, fontSize: 22),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(40),
+                      bottomRight: Radius.circular(40),
+                    ),
+                  ),
+                  centerTitle: true,
+                  title: AnimatedOpacity(
+                    opacity: _isScrolled ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 500),
+                    child: Column(
+                      children: [
+                        Observer(builder: (_) {
+                          return Text(
+                            '\₹ ${_.watch<LoggedInStore>().balance}',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
                             ),
-                            const SizedBox(
-                              width: 3,
-                            ),
-                            Observer(builder: (_) {
-                              return Text(
-                                _.watch<LoggedInStore>().balance,
-                                style: const TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                          );
+                        }),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          width: 30,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade800,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  flexibleSpace: FlexibleSpaceBar(
+                    collapseMode: CollapseMode.pin,
+                    titlePadding: const EdgeInsets.only(left: 20, right: 20),
+                    title: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 500),
+                      opacity: _isScrolled ? 0.0 : 1.0,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          FadeIn(
+                            duration: const Duration(milliseconds: 500),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '\₹',
+                                  style: TextStyle(
+                                      color: Colors.grey.shade800, fontSize: 22),
                                 ),
-                              );
-                            }),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      FadeIn(
-                        duration: const Duration(milliseconds: 500),
-                        child: MaterialButton(
-                          height: 30,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 0),
-                          onPressed: () {},
-                          child: const Text(
-                            'Add Money',
-                            style: TextStyle(color: Colors.black, fontSize: 10),
+                                const SizedBox(
+                                  width: 3,
+                                ),
+                                Observer(builder: (_) {
+                                  return Text(
+                                    _.watch<LoggedInStore>().balance,
+                                    style: const TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  );
+                                }),
+                              ],
+                            ),
                           ),
-                          color: Colors.transparent,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                color: Colors.grey.shade300, width: 1),
-                            borderRadius: BorderRadius.circular(30),
+                          const SizedBox(
+                            height: 10,
                           ),
-                        ),
+                          FadeIn(
+                            duration: const Duration(milliseconds: 500),
+                            child: MaterialButton(
+                              height: 30,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 0),
+                              onPressed: () {},
+                              child: const Text(
+                                'Add Money',
+                                style: TextStyle(color: Colors.black, fontSize: 10),
+                              ),
+                              color: Colors.transparent,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: Colors.grey.shade300, width: 1),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            width: 30,
+                            height: 3,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade800,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        width: 30,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade800,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-            SliverList(
-                delegate: SliverChildListDelegate([
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 20),
-                height: 115,
-                width: double.infinity,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _services.length,
-                  itemBuilder: (context, index) {
-                    return FadeInDown(
-                      duration: Duration(milliseconds: (index + 1) * 100),
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: GestureDetector(
-                          onTap: () {
-                            if (_services[index][0] == 'Transfer') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ContactPage()));
-                            }
-                            if (_services[index][0] == 'Scanner') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          BarcodeScannerWithOverlay()));
-                            }
-                          },
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade900,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Center(
-                                  child: Icon(
-                                    _services[index][1],
-                                    color: Colors.white,
-                                    size: 25,
+                SliverList(
+                    delegate: SliverChildListDelegate([
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 20),
+                    height: 115,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _services.length,
+                      itemBuilder: (context, index) {
+                        return FadeInDown(
+                          duration: Duration(milliseconds: (index + 1) * 100),
+                          child: AspectRatio(
+                            aspectRatio: 1,
+                            child: GestureDetector(
+                              onTap: () {
+                                if (_services[index][0] == 'Transfer') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ContactPage()));
+                                }
+                                if (_services[index][0] == 'Scanner') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              BarcodeScannerWithOverlay()));
+                                }
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade900,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        _services[index][1],
+                                        color: Colors.white,
+                                        size: 25,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                _services[index][0],
-                                style: TextStyle(
-                                    color: Colors.grey.shade800, fontSize: 12),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ])),
-            SliverFillRemaining(
-              child: Container(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
-                child: Column(
-                  children: [
-                    FadeInDown(
-                      duration: const Duration(milliseconds: 500),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Today',
-                              style: TextStyle(
-                                  color: Colors.grey.shade800,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Observer(builder: (_) {
-                              return Text(
-                                  '\₹ ${_.watch<LoggedInStore>().balance}',
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ));
-                            }),
-                          ]),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.only(top: 20),
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: _transactions.length,
-                        itemBuilder: (context, index) {
-                          return FadeInDown(
-                            duration: const Duration(milliseconds: 500),
-                            child: Container(
-                              margin: const EdgeInsets.only(bottom: 10),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.shade200,
-                                    blurRadius: 5,
-                                    spreadRadius: 1,
-                                    offset: const Offset(0, 6),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    _services[index][0],
+                                    style: TextStyle(
+                                        color: Colors.grey.shade800, fontSize: 12),
                                   ),
                                 ],
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Image.network(
-                                        _transactions[index][1],
-                                        width: 50,
-                                        height: 50,
-                                      ),
-                                      const SizedBox(
-                                        width: 15,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            _transactions[index][0],
-                                            style: TextStyle(
-                                                color: Colors.grey.shade900,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14),
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                            _transactions[index][2],
-                                            style: TextStyle(
-                                                color: Colors.grey.shade500,
-                                                fontSize: 12),
-                                          ),
-                                        ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ])),
+                SliverFillRemaining(
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
+                    child: Column(
+                      children: [
+                        FadeInDown(
+                          duration: const Duration(milliseconds: 500),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Today',
+                                  style: TextStyle(
+                                      color: Colors.grey.shade800,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Observer(builder: (_) {
+                                  return Text(
+                                      '\₹ ${_.watch<LoggedInStore>().balance}',
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ));
+                                }),
+                              ]),
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                            padding: const EdgeInsets.only(top: 20),
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: _transactions.length,
+                            itemBuilder: (context, index) {
+                              return FadeInDown(
+                                duration: const Duration(milliseconds: 500),
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.shade200,
+                                        blurRadius: 5,
+                                        spreadRadius: 1,
+                                        offset: const Offset(0, 6),
                                       ),
                                     ],
                                   ),
-                                  Text(
-                                    _transactions[index][3],
-                                    style: TextStyle(
-                                        color: Colors.grey.shade800,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Image.network(
+                                            _transactions[index][1],
+                                            width: 50,
+                                            height: 50,
+                                          ),
+                                          const SizedBox(
+                                            width: 15,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                _transactions[index][0],
+                                                style: TextStyle(
+                                                    color: Colors.grey.shade900,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                _transactions[index][2],
+                                                style: TextStyle(
+                                                    color: Colors.grey.shade500,
+                                                    fontSize: 12),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Text(
+                                        _transactions[index][3],
+                                        style: TextStyle(
+                                            color: Colors.grey.shade800,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ])
             )
-          ])),
+          );
+      }),
     );
   }
 
