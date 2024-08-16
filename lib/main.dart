@@ -44,13 +44,21 @@ class RootNavigator extends StatelessWidget {
             return Observer(
               builder: (_) {
 
-                StellarHelper.getWallet().then((val) => {
+                StellarHelper.getWallet().then((val) async => {
 
                   if (val == null) {
                     _.read<LoggedInStore>().setIsLoggedIn(false)
                   } else {
+                    await StellarHelper.getKeyPair(),
+                    await StellarHelper.getAccountData(),
+                    _.read<LoggedInStore>().setWallet(val),
+                    await StellarHelper.getAccountBalance().then((val) => {
+                       _.read<LoggedInStore>().setBalance(val)
+                    }),
+
                     _.read<LoggedInStore>().setIsLoggedIn(true)
                   }
+
                 });
 
                 if (_loginStore.isloggedin) {

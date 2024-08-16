@@ -209,13 +209,18 @@ class _HomePageState extends State<HomePage> {
                 duration: const Duration(milliseconds: 500),
                 child: Column(
                   children: [
-                    const Text(
-                      '\$ 1,840.00',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
+
+                    Observer(
+                      builder: (_) {
+                        return Text(
+                          '\$ ${_.watch<LoggedInStore>().balance}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      } 
                     ),
                     const SizedBox(height: 20,),
                     Container(
@@ -246,12 +251,16 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Text('\$', style: TextStyle(color: Colors.grey.shade800, fontSize: 22),),
                             const SizedBox(width: 3,),
-                            const Text('1,840.00',
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
+                            Observer(
+                              builder: (_) {
+                                return Text(_.watch<LoggedInStore>().balance,
+                                  style: const TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                );
+                              }
                             ),
                           ],
                         ),
@@ -345,7 +354,18 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Text('Today', style: TextStyle(color: Colors.grey.shade800, fontSize: 14, fontWeight: FontWeight.w600),),
                           const SizedBox(width: 10,),
-                          const Text('\$ 1,840.00', style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700,)),
+                          Observer(
+                            builder: (_) {
+                              return Text(
+                                '\$ ${_.watch<LoggedInStore>().balance}', 
+                                style: const TextStyle(
+                                  color: Colors.black, 
+                                  fontSize: 16, 
+                                  fontWeight: FontWeight.w700,
+                                  )
+                              );
+                            } 
+                          ),
                         ]
                       ),
                     ),

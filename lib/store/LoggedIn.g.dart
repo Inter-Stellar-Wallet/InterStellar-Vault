@@ -40,6 +40,21 @@ mixin _$LoggedInStore on LoggedIn, Store {
     });
   }
 
+  late final _$balanceAtom = Atom(name: 'LoggedIn.balance', context: context);
+
+  @override
+  String get balance {
+    _$balanceAtom.reportRead();
+    return super.balance;
+  }
+
+  @override
+  set balance(String value) {
+    _$balanceAtom.reportWrite(value, super.balance, () {
+      super.balance = value;
+    });
+  }
+
   late final _$LoggedInActionController =
       ActionController(name: 'LoggedIn', context: context);
 
@@ -66,10 +81,22 @@ mixin _$LoggedInStore on LoggedIn, Store {
   }
 
   @override
+  void setBalance(String val) {
+    final _$actionInfo =
+        _$LoggedInActionController.startAction(name: 'LoggedIn.setBalance');
+    try {
+      return super.setBalance(val);
+    } finally {
+      _$LoggedInActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isloggedin: ${isloggedin},
-wallet: ${wallet}
+wallet: ${wallet},
+balance: ${balance}
     ''';
   }
 }
