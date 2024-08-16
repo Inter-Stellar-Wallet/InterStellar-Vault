@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:day40/pages/contact.dart';
+import 'package:day40/pages/my_qr.dart';
 import 'package:day40/store/LoggedIn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
@@ -194,7 +195,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 IconButton(
                   icon: Icon(Icons.qr_code, color: Colors.grey.shade700),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const MyQrCode()));
+                  },
                 ),
               ],
               shape: const RoundedRectangleBorder(
