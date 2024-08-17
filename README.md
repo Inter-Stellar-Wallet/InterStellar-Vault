@@ -1,5 +1,6 @@
-# Interstellar
-<img src="https://github.com/Inter-Stellar-Wallet/InterStellar-Vault/blob/main/assets/images/logo.png" alt="Interstellar Logo" width="500" height="500">
+<p><img src="https://github.com/Inter-Stellar-Wallet/InterStellar-Vault/blob/main/assets/images/logo.png" alt="logo" width="20%" /></p>
+
+# Interstellar Vault
 
 Interstellar addresses several key challenges in modern financial transactions and customer engagement, providing solutions that enhance efficiency, security, and user experience.
 
@@ -37,3 +38,12 @@ One of the challenges we ran into was that technologies are not very well develo
 ```sh
 flutter pub get
 flutter run
+```
+
+## Screenshots
+
+![fda8ab02-4a0c-45d7-83a4-f625a55ea02a](https://github.com/Inter-Stellar-Wallet/InterStellar-Vault/assets/68425016/ad78fe7f-ff79-4773-853a-f9384bf8abb7)
+![7b7e9b11-48b2-416b-bea1-fd5e57929870](https://github.com/Inter-Stellar-Wallet/InterStellar-Vault/assets/68425016/1e3945bc-85b9-4d4b-86cf-1fe4d411e1a6)
+![cc34abe1-b962-48a1-920d-38cdc9a08adc](https://github.com/Inter-Stellar-Wallet/InterStellar-Vault/assets/68425016/4d1e4032-db41-4774-947d-34d52dd6fb49)
+![846cacc1-5ce6-46ec-b4d9-24902904bf20](https://github.com/Inter-Stellar-Wallet/InterStellar-Vault/assets/68425016/1d1d0651-2611-427e-b01c-649135eb696c)
+![846cacc1-5ce6-46ec-b4d9-24902904bf20](https://github.com/Inter-Stellar-Wallet/InterStellar-Vault/assets/68425016/ab34cb4f-5088-484a-a5cd-4e475a68b267)
